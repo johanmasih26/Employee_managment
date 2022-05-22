@@ -21,34 +21,18 @@ class EmployeeCreateView(View):
         context = {'form':form}
         return render(request, 'employee_create.html',context)
     def post(self, request, *args, **kwargs):
-        employee_name = request.POST['employee_name']
-        employee_salary = request.POST['employee_salary']
-        employee_joining_date = request.POST['employee_joining_date']
+        
         totallength = request.POST['totallength']
-        employee = Employee.objects.create(name=employee_name, salary=employee_salary, joining_date=employee_joining_date)
+        employee = Employee.objects.create(name=request.POST['employee_name'], salary=request.POST['employee_salary'], joining_date=request.POST['employee_joining_date'])
         employee.save()
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        flag = 0
-        member = ''
-        memberrelation = ''
-        profession = ''
-        Organizationname = ''
-        Description   = ''
 
+        flag = 0
+        member = memberrelation = profession = Organizationname = Description = ''
+        
         for i in range(0, int(totallength)+1):
             if request.POST['member'+str(i)]:
                 member = request.POST['member'+str(i)]
                 flag = 1
-                print(member)
             if request.POST['memberrelation'+str(i)]:
                 memberrelation = request.POST['memberrelation'+str(i)]
                 flag = 1
@@ -68,55 +52,13 @@ class EmployeeCreateView(View):
                 previous_organization = PreviousOrganization.objects.create(employees = employee, organization_name = Organizationname, description=Description)
                 previous_organization.save()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                # if flag == 1:
-                #     UserName.objects.create(firstname=firstname,age=age,relation=relation)               
-
-#          def Saveforms(request):
-
-#  lenth =  request.POST['totallength']
-
-#  if request.POST:
-#     i = 0
-#     for index in range(i,int(lenth)):
-#         firstname =""
-#         age =""
-#         relation =""
-#         flag=0
-#         if 'firstname'+str(index) in request.POST:
-#             firstname= request.POST['firstname'+str(index)]
-#             flag = 1
-#         if 'age'+str(index) in request.POST:
-#             age= request.POST['age'+str(index)]
-#             flag = 1
-#         if 'relation'+str(index)  in request.POST:
-#             relation= request.POST['relation'+str(index)]         
-#             flag = 1
-
-#         if flag == 1: 
-
-#              UserName.objects.create(firstname=firstname,age=age,relation=relation)               
-
-# return HttpResponseRedirect("/dynamicform/Manageforms/")
-
         return redirect('employee_list')
 
 class EmployeeDeleteView(View):
-    def get(self, request, *args, **kwargs):
-        return HttpResponse('Delete view')
+    def get(self, request, pk, *args, **kwargs):
+        employee = Employee.objects.get(id=pk)
+        employee.delete()
+        return redirect('employee_list')
     
 
 class EmployeeUpdateView(View):
