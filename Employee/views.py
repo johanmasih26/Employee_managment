@@ -67,7 +67,6 @@ class EmployeeUpdateView(View):
         employee_obj = Employee.objects.get(id=pk)    
         employee_family_details = FamilyDetail.objects.select_related().filter(employees= employee_obj).all()
         employee_previous_organizations = PreviousOrganization.objects.select_related().filter(employees= employee_obj).all()
-        print(employee_previous_organizations)
         context = {
             'employee' : employee_obj,
             'employee_family_details': employee_family_details,
@@ -114,7 +113,7 @@ class EmployeeUpdateView(View):
 
 
             
-        
+
         for i in range(1, int(total_organizations)+1):
             
             if request.POST['Organizationname'+str(i)]:
@@ -135,3 +134,42 @@ class EmployeeUpdateView(View):
 
         return redirect('employee_list')
         
+
+
+def CheckNumber(string):
+    import re
+    regex = '^[0-9]+$'
+    if(re.search(regex, string)):
+        return True
+    else:
+        return False
+
+
+
+class EmployeeSearchView(View):
+    def get(self, request, *args, **kwargs):
+        from django.db.models import Q
+        family_objects = []
+        list1 = []
+        searchInput = request.GET['search']
+        if CheckNumber(searchInput):
+            employee_list = Employee.objects.filter(salary = searchInput)
+        else:
+            employee_list = Employee.objects.filter(name__icontains=searchInput)
+            family_objects =  FamilyDetail.objects.filter(Q(name__icontains=searchInput) ,relation_with_employee='father')
+        
+        
+        
+        for i in employee_list:
+            list1.append(i)
+        for j in family_objects:
+            list1.append(j.employees)     
+
+
+
+ 
+        context = {
+            'employee_list': list1,
+        }
+
+        return render(request, 'index.html', context)
