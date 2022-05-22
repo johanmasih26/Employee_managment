@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <title>Employee</title>
+  </head>
+  <body>
+<div class="mt-5">
+
+    <h2 class="m-auto w-50 m-auto ">Employee</h2>
+    <form method="post" class="w-50 m-auto" action="{% url 'employee_create' %}">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="exampleInputEmail1">Employee Name</label>
+          <input type="text" class="form-control" name="employee_name" aria-describedby="emailHelp" placeholder="Enter Name">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Employee salary</label>
+            <input type="number" class="form-control" name="employee_salary" aria-describedby="emailHelp" placeholder="Enter salary">
+        </div>
+        
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">Employee Joining Date</label>
+            <input type="date" class="form-control" name="employee_joining_date" placeholder="Enter salary">
+        </div>
+
+        <hr>
+        <h3>Family Detail</h3>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Family member Name:</label>
+            <input type="text" class="form-control" name="member0" placeholder="Enter salary">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Member Relation with Employee:</label>
+            <input type="text" class="form-control" name="memberrelation0" placeholder="Enter salary">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">Profession:</label>
+            <input type="text" class="form-control" name="profession0" placeholder="Enter salary">
+        </div>
+
+
+
+
+
+
+        <hr>
+        <h3>Previous Organization:</h3>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Organization Name:</label>
+            <input type="text" class="form-control" id="exampleInputEmail1" name="Organizationname0" placeholder="Enter salary">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Description</label>
+            <input type="text" class="form-control" id="exampleInputEmail1" name="Description0" aria-describedby="emailHelp" placeholder="Enter salary">
+        </div>
+
+        
+
+
+      <input type="hidden" name="totallength" id="totallength" value="1">
+      <div id="test">
+
+      </div>
+
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+      
+      <div class="m-auto">
+
+
+
+
+<br><br>
+
+</div>
+</div>
+
+</div>
+</div>
+<!-- Button -->
+<div class="form-group">
+<div class="col-md-4">
+<button id="add-more-family-memeber" name="add-more" class="btn btn-primary">Add More Family member</button>
+<button id="add-more-organization-name" name="add-more" class="btn btn-primary">Add More Previous Organization</button>
+</div>
+</div>
+<br><br>
+      
+    </div>
+</div>
+</div>
+      </div>
+</div>
+
+
+
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            //@naresh action dynamic childs
+            var i = 1;
+            $("#add-more-family-memeber").click(function(e){
+                e.preventDefault();
+                    console.log('yes'+i)                
+                    var AnswerHTML = "";
+                    
+         
+                    
+                    AnswerHTML =' <hr><h3>Family Detail '+(i+1)+':</h3><div class="form-group">'
+                  +' <div class="col-xs-4"> <label for="">Family member Name:</label><input type="text" class="form-control" name="member'+i+'" placeholder="Enter salary"></div>'
+                  +' <div class="col-xs-4"> <label for="">realation with Employee:</label><input type="text" class="form-control" name="memberrelation'+i+'" placeholder="Enter relation"></div>'
+                  +' <div class="col-xs-4"> <label for="">realation with Employee:</label><input type="text" class="form-control" name="profession'+i+'" placeholder="Enter profession"></div>'
+                  +'<i class="icon-trash remove-me" style="padding-left:20px;  cursor: pointer;"></i></div>';
+                        
+                    
+                    $('#test').append(AnswerHTML);
+                    i++;
+                    $("#totallength").val(i);
+                                        
+                    $('.remove-me').click(function(e){
+                        e.preventDefault();
+                        var fieldNum = this.id.charAt(this.id.length-1);
+                        var fieldID = "#field" + fieldNum;
+                        $(this).remove();
+                        $(fieldID).remove();
+                    });
+            });
+
+
+            var count = 1;
+            $("#add-more-organization-name").click(function(e){
+                e.preventDefault();
+                    var AnswerHTML = "";
+                    
+         
+                    
+                    AnswerHTML =' <hr><h3>Previous Organization  '+(count+1)+':</h3><div class="form-group">'
+                  +' <div class="col-xs-4"> <label for="">Organization name:</label><input type="text" class="form-control" name="Organizationname'+count+'" placeholder="Enter salary"></div>'
+                  +' <div class="col-xs-4"> <label for="">Description:</label><input type="text" class="form-control" name="Description'+count+'" placeholder="Enter relation"></div>'
+                  +'<i class="icon-trash remove-me" style="padding-left:20px;  cursor: pointer;"></i></div>';
+                        
+                    
+                    $('#test').append(AnswerHTML);
+                    i++;
+                    $("#totallength").val(count);
+                                        
+                    $('.remove-me').click(function(e){
+                        e.preventDefault();
+                        var fieldNum = this.id.charAt(this.id.length-1);
+                        var fieldID = "#field" + fieldNum;
+                        $(this).remove();
+                        $(fieldID).remove();
+                    });
+            });
+        
+        });
+    </script>
+  </body>
+</html>
+

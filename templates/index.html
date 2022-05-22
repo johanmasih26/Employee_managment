@@ -1,0 +1,303 @@
+
+
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+	<!-- Start Sidebar -->
+
+    
+    <!-- Start vendor movement Sec -->
+            
+
+        	<div class="vendor-movement-sec">
+        		<div class="row vendor-main-r payout vendr-pay recent-order-sec">
+        			<div class="col-md-6 col-12 col-lg-6">
+        				<h2 class="mt-0">All Employee</h2>
+                       
+        			</div>
+        			{% comment %} <div class="col-md-6 text-end col-12 col-lg-6" style="align-self:center;">
+                      <div class="filer"><span><i class="fas fa-filter"></i> Filters</span></div>
+        			</div> {% endcomment %}
+        		</div>
+                <div class="vendor-movement-tabs main-tabs">
+                   
+                            <div class="row tabs-main-rw">
+                                    <div class="col-12 col-md-12 col-lg-12 main-content vendor-tabs">
+                                        <div class="sort-btns">
+                                            <div class="btn">   <a href="{% url 'employee_create' %}" class="btn btn1 add-new"><i class="fa-solid fa-plus"></i> ADD NEW</a></div>
+                                        </div>
+                                    <div class="vendor-tabs-contnt payout customers">
+                                        <table class="w-100 mt-4 pt-5" id="myTable">
+                                            <thead>
+                                                <tr>
+                                                    <th><p class="mb-0">Employee ID</p></th>
+                                                    <th><p class="mb-0">Name</p></th>
+                                                    <th><p class="mb-0">Salary</p></th>
+                                                    <th><p class="mb-0">Joining Date</p></th>
+                                                    <th><p class="mb-0">Action</p></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            {% for employee in employee_list %}
+                                            <tr>
+                                               <td><p>{{employee.id}}</p></td>
+                                               <td><p>{{employee.name}}</p></td>
+                                               <td><p>{{employee.salary}}</p></td>
+                                               <td><p>{{employee.joining_date}}</p></td>
+                                             
+                                             
+                                                <td><p><a href="/superadmin/customer/{{customer.userId}}/"><i class="fa-solid fa-pen"></i></a>
+                                                {% comment %} <a href="#"><i class="fa-solid fa-download"></i></a> {% endcomment %}
+                                                {% comment %} <a href="#"> <i class="fa-solid fa-trash-can"></i></a></p></td> {% endcomment %}
+                                            </tr>
+                                            {% endfor %}
+
+                                           
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                  
+                                </div>
+                            </div>
+
+                    	</div>
+                    </div>
+        </div>
+
+{% endblock %}
+{% block js %}
+
+<script>
+
+$('.yearpicker').yearpicker({
+
+  // Initial Year
+  year: 2022,
+
+  // Start Year
+  startYear: 2020,
+
+  
+});
+
+$(document).on("click", ".theYearId", function (e) {
+    var nearestPicker=$(this).closest('div').find('.yearpicker-container')
+    if(nearestPicker.hasClass('hide')){
+          nearestPicker.removeClass('hide')
+      }
+      else{
+          nearestPicker.addClass('hide')
+      }
+});
+
+$(document).on("click",".statusChecked", function(e){
+     var nesrestId=$(this).closest('div').find('#theUniqueSrNo');
+     {% comment %} console.log(nesrestId.val()) {% endcomment %}
+     theID="flexSwitchCheckChecked"+nesrestId.val()
+     {% comment %} console.log(theID) {% endcomment %}
+     toogleObj=document.getElementById(theID)
+
+     if ($(this).is(':checked')) {
+         switchStatus='True'
+    }
+    else {
+        switchStatus='False'
+    }
+    
+    
+    var a = $('input[name="csrfmiddlewaretoken"]').val()
+    const formData1 = new FormData();
+
+    formData1.append('userId',nesrestId.val())
+    formData1.append('status',switchStatus)
+    formData1.append('csrfmiddlewaretoken',a)
+    theURL='/superadmin/changeCustomerStatus/'
+
+});
+
+
+
+theArray1=[]
+{% for i in totalCustomers %}
+theArray1.push(parseInt("{{i}}"))
+{% endfor %}
+
+theArray2=[]
+{% for i in activeCustomers %}
+theArray2.push(parseInt("{{i}}"))
+{% endfor %}
+
+theArray3=[]
+{% for i in inactiveCustomers %}
+theArray3.push(parseInt("{{i}}"))
+{% endfor %}
+
+graph1(theArray1)
+graph2(theArray2)
+graph3(theArray3)
+
+function graph1(theArray1)
+{
+Highcharts.chart('container1', {
+    chart: {
+        type: 'area'
+    },
+    
+    colors: ['#f4ae3f',],
+    accessibility: {
+        description: ''
+    },
+    
+    title: {
+        text: ''
+    },
+    subtitle: {
+        text: ''
+    },
+    xAxis: {
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    },
+    tooltip: {
+        pointFormat: '{series.name} <b>{point.y:,.0f}'
+    },
+    plotOptions: {
+        area: {
+            marker: {
+                enabled: false,
+                symbol: 'circle',
+                radius: 2,
+                states: {
+                    hover: {
+                        enabled: true
+                    }
+                }
+            }
+        }
+    },
+    
+    series: [{
+        opacity:1.0,
+        name: 'Total Customers',
+        data: theArray1
+    },]
+});
+}
+
+function graph2()
+{
+Highcharts.chart('container2', {
+    chart: {
+        type: 'area'
+    },
+    
+    colors: ['#76b737',],
+    accessibility: {
+        description: ''
+    },
+    
+    title: {
+        text: ''
+    },
+    subtitle: {
+        text: ''
+    },
+    xAxis: {
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    },
+    tooltip: {
+        pointFormat: '{series.name} <b>{point.y:,.0f}'
+    },
+    plotOptions: {
+        area: {
+            marker: {
+                enabled: false,
+                symbol: 'circle',
+                radius: 2,
+                states: {
+                    hover: {
+                        enabled: true
+                    }
+                }
+            }
+        }
+    },
+    
+    series: [{
+        opacity:1.0,
+        name: 'Active Customers',
+        data: theArray2
+    },]
+});
+}
+
+
+function graph3()
+{
+Highcharts.chart('container3', {
+    chart: {
+        type: 'area'
+    },
+    
+    colors: ['#ee434d',],
+    accessibility: {
+        description: ''
+    },
+    
+    title: {
+        text: ''
+    },
+    subtitle: {
+        text: ''
+    },
+    xAxis: {
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    },
+    tooltip: {
+        pointFormat: '{series.name} <b>{point.y:,.0f}'
+    },
+    plotOptions: {
+        area: {
+            marker: {
+                enabled: false,
+                symbol: 'circle',
+                radius: 2,
+                states: {
+                    hover: {
+                        enabled: true
+                    }
+                }
+            }
+        }
+    },
+    
+    series: [{
+        opacity:1.0,
+        name: 'Inactive Customers',
+        data: theArray3
+    },]
+});
+}
+
+</script>
+
+
+<script> var triggerTabList = [].slice.call(document.querySelectorAll('#myTab a'))
+triggerTabList.forEach(function (triggerEl) {
+  var tabTrigger = new bootstrap.Tab(triggerEl)
+
+  triggerEl.addEventListener('click', function (event) {
+    event.preventDefault()
+    tabTrigger.show()
+  })
+})</script>
+<script type="text/javascript">var tabEl = document.querySelector('button[data-bs-toggle="tab"]')
+tabEl.addEventListener('shown.bs.tab', function (event) {
+  event.target // newly activated tab
+  event.relatedTarget // previous active tab
+})</script>
+{% endblock %}
