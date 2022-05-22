@@ -10,6 +10,6 @@ from .views import EmployeeListView, EmployeeCreateView, EmployeeDeleteView, Emp
 urlpatterns = [
     path('', EmployeeListView.as_view(), name="employee_list"),
     path('create/', EmployeeCreateView.as_view(), name="employee_create"),
-    path('update/', EmployeeUpdateView.as_view(), name="employee_update"),
+    path('update/<str:pk>', EmployeeUpdateView.as_view(), name="employee_update"),
     path('delete/<str:pk>', EmployeeDeleteView.as_view(), name="employee_delete"),
 ]

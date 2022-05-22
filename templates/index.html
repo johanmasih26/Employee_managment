@@ -44,11 +44,11 @@
                                                <td><p>{{employee.id}}</p></td>
                                                <td><p>{{employee.name}}</p></td>
                                                <td><p>{{employee.salary}}</p></td>
-                                               <td><p>{{employee.joining_date}}</p></td>
+                                               <td><p>{{employee.joining_date | date:"M d, Y" }}</p></td>
                                              
                                              
                                                 <td><p><a href="{% url 'employee_delete' employee.id %}">Delete</a>
-                                                <td><p><a href="{% url 'employee_delete' employee.id %}">Edit</a>
+                                                <td><p><a href="{% url 'employee_update' employee.id %}">Edit</a>
                                             </tr>
                                             {% endfor %}
 
