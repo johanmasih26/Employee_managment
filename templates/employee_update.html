@@ -32,8 +32,8 @@
         
 
         <div class="form-group">
-            <label for="">Employee Joining Date {{employee.salary}}{{employee.joining_date}}</label>
-            <input type="date" class="form-control" name="employee_joining_date" value="{{employee.joining_date| date:"%d/%m/%Y" }}" placeholder="Enter salary">
+            <label for="">Employee Joining Date </label>
+            <input type="date" class="form-control" name="employee_joining_date" value="{{employee.joining_date| date:"%d/%m/%Y" }}" placeholder="Enter date">
         </div>
 
         <hr>
@@ -45,17 +45,17 @@
             <div class="form-group">
                 <label for="exampleInputEmail1">Family member Name:</label>
                 <input type="hidden" name="id{{forloop.counter}}" value="{{employee_family_detail.id}}">
-                <input type="text" class="form-control" name="member{{forloop.counter}}" value="{{employee_family_detail.name}}" placeholder="Enter salary">
+                <input type="text" class="form-control" name="member{{forloop.counter}}" value="{{employee_family_detail.name}}" placeholder="Enter name">
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Member Relation with Employee:</label>
-                <input type="text" class="form-control" name="memberrelation{{forloop.counter}}" value="{{employee_family_detail.relation_with_employee}}" placeholder="Enter salary">
+                <input type="text" class="form-control" name="memberrelation{{forloop.counter}}" value="{{employee_family_detail.relation_with_employee}}" placeholder="Enter relation">
               
             </div>
 
             <div class="form-group">
                 <label for="exampleInputEmail1">Profession:</label>
-                <input type="text" class="form-control" name="profession{{forloop.counter}}" value="{{employee_family_detail.profession}}" placeholder="Enter salary">
+                <input type="text" class="form-control" name="profession{{forloop.counter}}" value="{{employee_family_detail.profession}}" placeholder="Enter profession">
             </div>
             <hr>  
             
@@ -130,6 +130,7 @@
         $(document).ready(function () {
             //@naresh action dynamic childs
             var i = 1;
+            i++;
             $("#add-more-family-memeber").click(function(e){
                 e.preventDefault();
                     console.log('yes'+i)                
@@ -145,7 +146,6 @@
                         
                     
                     $('#test').append(AnswerHTML);
-                    i++;
                     $("#totallength").val(i);
                                         
                     $('.remove-me').click(function(e){
@@ -166,7 +166,7 @@
          
                     
                     AnswerHTML =' <hr><h3>Previous Organization  '+(count+1)+':</h3><div class="form-group">'
-                  +' <div class="col-xs-4"> <label for="">Organization name:</label><input type="text" class="form-control" name="Organizationname'+count+'" placeholder="Enter salary"></div>'
+                  +' <div class="col-xs-4"> <label for="">Organization name:</label><input type="text" class="form-control" name="Organizationname'+count+'" placeholder="Enter orgaination name"></div>'
                   +' <div class="col-xs-4"> <label for="">Description:</label><input type="text" class="form-control" name="Description'+count+'" placeholder="Enter relation"></div>'
                   +'<i class="icon-trash remove-me" style="padding-left:20px;  cursor: pointer;"></i></div>';
                         
