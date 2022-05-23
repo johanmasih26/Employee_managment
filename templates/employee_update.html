@@ -19,7 +19,7 @@
 <div class="mt-5">
 
     <h2 class="m-auto w-50 m-auto ">Employee</h2>
-    <form method="post" class="w-50 m-auto" action="{% url 'employee_update' employee.id%}">
+    <form method="post" class="w-50 m-auto" action="{% url 'employee_update' employee.id %}">
         {% csrf_token %}
         <div class="form-group">
           <label for="exampleInputEmail1">Employee Name</label>
@@ -33,11 +33,15 @@
 
         <div class="form-group">
             <label for="">Employee Joining Date </label>
-            <input type="date" class="form-control" name="employee_joining_date" value="{{employee.joining_date| date:"%d/%m/%Y" }}" placeholder="Enter date">
+            <input type="date" class="form-control" name="employee_joining_date" value="" placeholder="Enter date">
         </div>
 
         <hr>
         
+
+
+
+
         {% for employee_family_detail in employee_family_details  %}
             
                 <h3>Family Detail {{forloop.counter}}</h3>
@@ -60,13 +64,16 @@
             <hr>  
     
 
+            {% empty %}
 
-        {% endfor %}
+                {% include 'extrarecored.html' %}
+
+            {% endfor %}
         <hr>        
         
         
-        <input type="hidden" name="total_organization" value="{{employee_previous_organizations | length}}">
-        <input type="hidden" name="total_familyDetails" value="{{employee_family_details | length}}">
+        <input type="hidden" name="total_organization" value="{{employee_previous_organizations | length}}" id="total_organization">
+        <input type="hidden" name="total_familyDetails" value="{{employee_family_details | length}}" id="total_familyDetails">
         {% for employee_previous_organization in employee_previous_organizations  %}
         <h3>Previous Organization {{forloop.counter}}:</h3>
         <div class="form-group">
@@ -88,7 +95,7 @@
 
         
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Submitlssl</button>
       </form>
       
       <div class="m-auto">

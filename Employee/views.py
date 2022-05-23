@@ -86,6 +86,7 @@ class EmployeeUpdateView(View):
 
     def post(self, request, *args, pk, **kwargs):
         employee = Employee.objects.get(id=pk)    
+        employee_family_details_count = employee.familydetail_set.count()
         employee.name= request.POST['employee_name']
         employee.salary= request.POST['employee_salary']
         if request.POST['employee_joining_date']:
@@ -99,54 +100,96 @@ class EmployeeUpdateView(View):
         member = memberrelation = profession = Organizationname = Description = ''
         print(total_familyDetails)
         print(total_organizations,'+++++++++++++')
-        for i in range(1, int(total_familyDetails)+1):
-            if request.POST['member'+str(i)]:
-                member = request.POST['member'+str(i)]
-                print(member,' name')
-                flag = 1
-            if request.POST['memberrelation'+str(i)]:
-                memberrelation = request.POST['memberrelation'+str(i)]
-                print(memberrelation,'relation')
-                flag = 1
-            if request.POST['familymemberid'+str(i)]:
-                pk = request.POST['familymemberid'+str(i)]
-                print(pk,'family member id')
-                flag = 1
-            
-            if request.POST['profession'+str(i)]:
-                profession = request.POST['profession'+str(i)]
-                print(profession,'pro')
-                flag = 1
-            
-            if flag==1:
-                family_detail_obj = FamilyDetail.objects.select_related().get(id=pk)
-                family_detail_obj.name = member
-                family_detail_obj.relation_with_employee = memberrelation
-                family_detail_obj.profession = profession
-                family_detail_obj.save()
+        
+        if employee_family_details_count == 0:
+            for i in range(1, int(total_familyDetails)+1):
+                if request.POST['member'+str(i)]:
+                    member = request.POST['member'+str(i)]
+                    print(member,' name')
+                    flag = 1
+                if request.POST['memberrelation'+str(i)]:
+                    memberrelation = request.POST['memberrelation'+str(i)]
+                    print(memberrelation,'relation')
+                    flag = 1
+                # if request.POST['familymemberid'+str(i)]:
+                #     pk = request.POST['familymemberid'+str(i)]
+                #     print(pk,'family member id')
+                #     flag = 1
+                
+                if request.POST['profession'+str(i)]:
+                    profession = request.POST['profession'+str(i)]
+                    print(profession,'pro')
+                    flag = 1
+                
+                if flag==1:
+                    family_detail = FamilyDetail.objects.create(employees = employee, name=member, relation_with_employee = memberrelation, profession=profession)
+                    family_detail.save()
+
+            for i in range(1, int(total_organizations)+1):
+                if request.POST['Organizationname'+str(i)]:
+                    Organizationname = request.POST['Organizationname'+str(i)]
+                    flag = 1
+                if request.POST['Description'+str(i)]:
+                    Description = request.POST['Description'+str(i)]
+                    flag = 1
+                # if request.POST['organization'+str(i)]:
+                #     pk = request.POST['organization'+str(i)]
+                #     flag = 1
+                #     print(pk, 'organization id')
+
+                if flag == 1:
+                    previous_organization = PreviousOrganization.objects.create(employees = employee, organization_name = Organizationname, description=Description)
+                    previous_organization.save()
+ 
+                    
+        else:
+            for i in range(1, int(total_familyDetails)+1):
+                if request.POST['member'+str(i)]:
+                    member = request.POST['member'+str(i)]
+                    print(member,' name')
+                    flag = 1
+                if request.POST['memberrelation'+str(i)]:
+                    memberrelation = request.POST['memberrelation'+str(i)]
+                    print(memberrelation,'relation')
+                    flag = 1
+                if request.POST['familymemberid'+str(i)]:
+                    pk = request.POST['familymemberid'+str(i)]
+                    print(pk,'family member id')
+                    flag = 1
+                
+                if request.POST['profession'+str(i)]:
+                    profession = request.POST['profession'+str(i)]
+                    print(profession,'pro')
+                    flag = 1
+                
+                if flag==1:
+                    family_detail_obj = FamilyDetail.objects.select_related().get(id=pk)
+                    family_detail_obj.name = member
+                    family_detail_obj.relation_with_employee = memberrelation
+                    family_detail_obj.profession = profession
+                    family_detail_obj.save()
 
 
             
 
-        for i in range(1, int(total_organizations)+1):
-            
-            if request.POST['Organizationname'+str(i)]:
-                Organizationname = request.POST['Organizationname'+str(i)]
-                flag = 1
-            if request.POST['Description'+str(i)]:
-                Description = request.POST['Description'+str(i)]
-                flag = 1
-            if request.POST['organization'+str(i)]:
-                pk = request.POST['organization'+str(i)]
-                flag = 1
-                print(pk, 'organization id')
+            for i in range(1, int(total_organizations)+1):
+                
+                if request.POST['Organizationname'+str(i)]:
+                    Organizationname = request.POST['Organizationname'+str(i)]
+                    flag = 1
+                if request.POST['Description'+str(i)]:
+                    Description = request.POST['Description'+str(i)]
+                    flag = 1
+                if request.POST['organization'+str(i)]:
+                    pk = request.POST['organization'+str(i)]
+                    flag = 1
+                    print(pk, 'organization id')
 
-            if flag == 1:
-                Previous_organization_obj = PreviousOrganization.objects.select_related().get(id=pk)
-                Previous_organization_obj.organization_name = Organizationname
-                Previous_organization_obj.description = Description
-                Previous_organization_obj.save()
-
+                if flag == 1:
+                    Previous_organization_obj = PreviousOrganization.objects.select_related().get(id=pk)
+                    Previous_organization_obj.organization_name = Organizationname
+                    Previous_organization_obj.description = Description
+                    Previous_organization_obj.save()    
         return redirect('employee_list')
         
 
