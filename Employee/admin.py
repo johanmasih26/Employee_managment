@@ -5,14 +5,14 @@ from django.contrib import admin
 
 
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ['name']
+    list_display = ['id','name']
 
 
 class FamilyDetailAdmin(admin.ModelAdmin):
-    list_display = ['name','relation_with_employee','profession']
+    list_display = ['id','name','relation_with_employee','profession']
 
 class PreviousOrganizationAdmin(admin.ModelAdmin):
-    list_display = ['organization_name','description']
+    list_display = ['id','organization_name','description']
 
 
 

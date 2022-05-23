@@ -90,27 +90,32 @@ class EmployeeUpdateView(View):
         employee.salary= request.POST['employee_salary']
         if request.POST['employee_joining_date']:
             employee.joining_date = request.POST['employee_joining_date']
-        employee.save()
+        # employee.save()
         total_organizations = request.POST['total_organization']
         total_familyDetails = request.POST['total_familyDetails']
 
 
         flag = 0
         member = memberrelation = profession = Organizationname = Description = ''
-        
+        print(total_familyDetails)
+        print(total_organizations,'+++++++++++++')
         for i in range(1, int(total_familyDetails)+1):
             if request.POST['member'+str(i)]:
                 member = request.POST['member'+str(i)]
+                print(member,' name')
                 flag = 1
             if request.POST['memberrelation'+str(i)]:
                 memberrelation = request.POST['memberrelation'+str(i)]
+                print(memberrelation,'relation')
                 flag = 1
-            if request.POST['id'+str(i)]:
-                pk = request.POST['id'+str(i)]
+            if request.POST['familymemberid'+str(i)]:
+                pk = request.POST['familymemberid'+str(i)]
+                print(pk,'family member id')
                 flag = 1
             
             if request.POST['profession'+str(i)]:
                 profession = request.POST['profession'+str(i)]
+                print(profession,'pro')
                 flag = 1
             
             if flag==1:
@@ -131,9 +136,10 @@ class EmployeeUpdateView(View):
             if request.POST['Description'+str(i)]:
                 Description = request.POST['Description'+str(i)]
                 flag = 1
-            if request.POST['id'+str(i)]:
-                pk = request.POST['id'+str(i)]
+            if request.POST['organization'+str(i)]:
+                pk = request.POST['organization'+str(i)]
                 flag = 1
+                print(pk, 'organization id')
 
             if flag == 1:
                 Previous_organization_obj = PreviousOrganization.objects.select_related().get(id=pk)

@@ -44,7 +44,7 @@
 
             <div class="form-group">
                 <label for="exampleInputEmail1">Family member Name:</label>
-                <input type="hidden" name="id{{forloop.counter}}" value="{{employee_family_detail.id}}">
+                <input type="hidden" name="familymemberid{{forloop.counter}}" value="{{employee_family_detail.id}}">
                 <input type="text" class="form-control" name="member{{forloop.counter}}" value="{{employee_family_detail.name}}" placeholder="Enter name">
             </div>
             <div class="form-group">
@@ -69,7 +69,7 @@
         <h3>Previous Organization {{forloop.counter}}:</h3>
         <div class="form-group">
             <label for="exampleInputEmail1">Organization Name:</label>
-            <input type="hidden" name="id{{forloop.counter}}" value="{{employee_previous_organization.id}}">
+            <input type="hidden" name="organization{{forloop.counter}}" value="{{employee_previous_organization.id}}">
             <input type="text" class="form-control" id="exampleInputEmail1" name="Organizationname{{forloop.counter}}" value="{{employee_previous_organization.organization_name}}" placeholder="Enter salary">
         </div>
         <div class="form-group">
