@@ -90,7 +90,7 @@ class EmployeeUpdateView(View):
         employee.salary= request.POST['employee_salary']
         if request.POST['employee_joining_date']:
             employee.joining_date = request.POST['employee_joining_date']
-        # employee.save()
+        employee.save()
         total_organizations = request.POST['total_organization']
         total_familyDetails = request.POST['total_familyDetails']
 

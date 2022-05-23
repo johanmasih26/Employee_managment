@@ -58,7 +58,9 @@
                 <input type="text" class="form-control" name="profession{{forloop.counter}}" value="{{employee_family_detail.profession}}" placeholder="Enter profession">
             </div>
             <hr>  
-            
+    
+
+
         {% endfor %}
         <hr>        
         
@@ -128,7 +130,6 @@
     <script>
 
         $(document).ready(function () {
-            //@naresh action dynamic childs
             var i = 1;
             i++;
             $("#add-more-family-memeber").click(function(e){
