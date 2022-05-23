@@ -98,27 +98,18 @@ class EmployeeUpdateView(View):
 
         flag = 0
         member = memberrelation = profession = Organizationname = Description = ''
-        print(total_familyDetails)
-        print(total_organizations,'+++++++++++++')
         
         if employee_family_details_count == 0:
             for i in range(1, int(total_familyDetails)+1):
                 if request.POST['member'+str(i)]:
                     member = request.POST['member'+str(i)]
-                    print(member,' name')
                     flag = 1
                 if request.POST['memberrelation'+str(i)]:
                     memberrelation = request.POST['memberrelation'+str(i)]
-                    print(memberrelation,'relation')
                     flag = 1
-                # if request.POST['familymemberid'+str(i)]:
-                #     pk = request.POST['familymemberid'+str(i)]
-                #     print(pk,'family member id')
-                #     flag = 1
                 
                 if request.POST['profession'+str(i)]:
                     profession = request.POST['profession'+str(i)]
-                    print(profession,'pro')
                     flag = 1
                 
                 if flag==1:
@@ -132,10 +123,6 @@ class EmployeeUpdateView(View):
                 if request.POST['Description'+str(i)]:
                     Description = request.POST['Description'+str(i)]
                     flag = 1
-                # if request.POST['organization'+str(i)]:
-                #     pk = request.POST['organization'+str(i)]
-                #     flag = 1
-                #     print(pk, 'organization id')
 
                 if flag == 1:
                     previous_organization = PreviousOrganization.objects.create(employees = employee, organization_name = Organizationname, description=Description)
@@ -146,20 +133,16 @@ class EmployeeUpdateView(View):
             for i in range(1, int(total_familyDetails)+1):
                 if request.POST['member'+str(i)]:
                     member = request.POST['member'+str(i)]
-                    print(member,' name')
                     flag = 1
                 if request.POST['memberrelation'+str(i)]:
                     memberrelation = request.POST['memberrelation'+str(i)]
-                    print(memberrelation,'relation')
                     flag = 1
                 if request.POST['familymemberid'+str(i)]:
                     pk = request.POST['familymemberid'+str(i)]
-                    print(pk,'family member id')
                     flag = 1
                 
                 if request.POST['profession'+str(i)]:
                     profession = request.POST['profession'+str(i)]
-                    print(profession,'pro')
                     flag = 1
                 
                 if flag==1:
@@ -183,7 +166,6 @@ class EmployeeUpdateView(View):
                 if request.POST['organization'+str(i)]:
                     pk = request.POST['organization'+str(i)]
                     flag = 1
-                    print(pk, 'organization id')
 
                 if flag == 1:
                     Previous_organization_obj = PreviousOrganization.objects.select_related().get(id=pk)
@@ -206,7 +188,6 @@ def CheckNumber(string):
 
 class EmployeeSearchView(View):
     def get(self, request, *args, **kwargs):
-        from django.db.models import Q
         family_objects = []
         list1 = []
         searchInput = request.GET['search']
